@@ -1,0 +1,149 @@
+/*
+COMMON: #eff5ff;
+RARE:;
+SUPER:;
+ULTRA:;
+EPIC:
+*/
+
+header {
+	display: flex;
+	justify-content: center;
+}
+
+a {
+	text-decoration: none;
+	color: blue;
+}
+
+h1 {
+	display: inline;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	cursor: default;
+	user-select: none;
+	font-size: 20px;
+	background-color: #c2fcff;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23aad2ff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+#cashDisplay {
+	display: flex;
+	justify-content: center;
+	font-size: 36px;
+}
+
+#resourceWrapper {
+	display: grid;
+	grid-template-columns: repeat(4, 200px);
+	grid-template-rows: repeat(5, 280px);
+	grid-gap: 15px;
+	justify-content: center;
+}
+
+.resource {
+	display: grid;
+	grid-template-rows: repeat(7, 7fr);
+	grid-template-columns: 50% 50%;
+	border: 5px solid;
+	border-radius: 10px;
+	padding: 10px;
+	opacity: 0;
+	font-weight: bold;
+}
+
+.resTitle {
+	display: flex;
+	font-size: 26px;
+	margin: -10px;
+	margin-bottom: 0;
+	justify-content: center;
+	align-items: center;
+	grid-column: 1 / span 2;
+	border-radius: 5px 5px 0 0;
+	letter-spacing: 3px;
+	border-bottom: 5px solid;
+}
+
+.resLine {
+	display: flex;
+	white-space: pre-wrap;
+	align-items: center;
+	justify-content: start;
+	grid-row: span 1;
+	grid-column: span 1;
+}
+
+.resValue {
+	display: flex;
+	align-items: center;
+	justify-self: end;
+	grid-column: 2;
+	margin-right: -10px;
+	padding: 0 10px 0 10px;
+	border-right: 5px solid;
+	border-radius: 30px 0 0 30px; 
+}
+
+.sellButton {
+	padding: 0;
+	border-radius: 5px;
+	text-shadow: 1px 1px 3px #000000;
+	color: #ffffff;
+	font-size: 20px;
+	background-color: #3498db;
+	border: solid #1f628d 3px;
+	grid-row: 7;
+	box-shadow: 0px 2px 2px 0px rgba(73,77,84,1)
+}
+
+.sellButton:hover {
+	cursor: pointer;
+	top: -4px;
+	box-shadow: none;
+	border: solid #1f628d 3px;
+	background-color: #44a8eb;
+	box-shadow: inset 0px 0px 5px 0px rgba(73,77,84,1);
+}
+
+.totValue {
+	grid-row: 7;
+	grid-column: 2;
+	justify-self: end;
+    align-items: center;
+    display: flex;
+}
+
+.Common { border-color: #c9d4e8; }
+.feedbackCommon { animation-name: feedbackCommon; animation-duration: 0.5s; }
+@keyframes feedbackCommon { from {background-color: #c9d4e8}; to {background-color: initial}; }
+
+.Rare { border-color: #b2f7b2; }
+.feedbackRare { animation-name: feedbackRare; animation-duration: 0.5s; }
+@keyframes feedbackRare { from {background-color: #b2f7b2}; to {background-color: initial}; }
+
+.Super { border-color: #b1d5f7; }
+.feedbackSuper { animation-name: feedbackSuper; animation-duration: 0.5s; }
+@keyframes feedbackSuper { from {background-color: #b1d5f7}; to {background-color: initial}; }
+
+.Ultra { border-color: #e0b1f7; }
+.feedbackUltra { animation-name: feedbackUltra; animation-duration: 0.5s; }
+@keyframes feedbackUltra { from {background-color: #e0b1f7}; to {background-color: initial}; }
+
+.Epic { border-color: #f7e9b1; }
+.feedbackEpic { animation-name: feedbackEpic; animation-duration: 0.5s; }
+@keyframes feedbackEpic { from {background-color: #f7e9b1}; to {background-color: initial}; }
+
+.tier1 {
+	border-color: grey;
+	background-color: #a1a7af;
+	box-shadow: -5px 5px 5px 0px rgba(73,77,84,1);
+}
+
+.tier1 .resTitle {
+	color: white;
+	background-color: #a0a9b8;
+	border-bottom: 5px solid grey;
+}
