@@ -101,8 +101,8 @@ function pauseGame() {
 	console.log(pause)
 }
 
-const Peridoto = new Resource("peridoto", 4, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
-const Jasper = new Resource("jasper", 3, [0.25, 0.45], [1, 2, 5, 15, 100]);
+const Peridoto = new Resource("peridoto", 1, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
+const Jasper = new Resource("jasper", 1, [0.25, 0.45], [1, 2, 5, 15, 100]);
 const Carnelian = new Resource("carnelian", 1, [0.3, 0.4], [2, 4, 12, 15, 1000]);
 
 window.setInterval(function() {
