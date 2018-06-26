@@ -1,6 +1,10 @@
+// main.js which runs the game's logic and draws most of the HTML to the page on load. I am not a good JS programmer, please let me know if any of this is super-super-super bad and awful and how I can make it better.
+
 let pause = false;
 const Qualities = ["Common", "Rare", "Super", "Ultra", "Epic"];
-let cash = 0;
+let cash = 5;
+let upgrades = ["tierUp", "oddsUp", "valueUp", "tickUp"];
+let upgradesName = ["Tier+", "Odds+", "Value+", "Tick+"]
 
 // TIER 1 - C / R
 // TIER 2 - C / R / S
@@ -8,7 +12,7 @@ let cash = 0;
 // TIER 4 - C / R / S / U / E
 
 class Resource {
-	constructor(name, tier, odds, costs) {
+	constructor(name, tier, odds, saleVal) {
 	
 		//creates the basic objects and an array of odds
 		var t = this;
@@ -16,15 +20,18 @@ class Resource {
 		this.nameL = name;
 		this.tier = tier;
 		this.qual = {};
-		this.costs = costs;
+		this.saleVal = saleVal;
 		this.odds = odds;
+		this.tickLength = 1000;
+		this.tierUpCost = 10000;
+		
 
 		//selling function
 		this.sell = function () {
 			cash = cash + t.val();
-			for (let i in t.qual) {
-				t.qual[i] = 0;
-				get(t.nameL+i).innerHTML = t.qual[i];
+			for (let i in this.qual) {
+				this.qual[i] = 0;
+				get(t.nameL+i).innerHTML = this.qual[i];
 			}
 			get(t.nameL+"Value").innerHTML = t.val();
 		}
@@ -33,7 +40,7 @@ class Resource {
 		this.val = function() {
 			let x = 0, j = 0;
 			for (let i in this.qual) {
-				x = x + (this.qual[i] * this.costs[j])
+				x = x + (this.qual[i] * this.saleVal[j])
 				j++;
 			}
 			return x;
@@ -55,11 +62,14 @@ class Resource {
 		for (let i in this.qual) {
 			get(name).innerHTML+=("<span class='resLine'>"+i+":</span><span class='resValue "+i+"' id="+name+i+">0</span>")
 		}
+		for (let i = 0; i < upgrades.length; i++) {
+			get(name).innerHTML+=("<button class='upgrade "+upgrades[i]+"' onclick='"+upgrades[i]+"("+name+")'>"+upgradesName[i]+"</button>")
+		}
 		get(name).style.opacity = "1"
-		document.getElementById(name+"Sell").onclick = this.sell;
+		document.getElementById(name+"Sell").onclick = this.sell.bind(this);
 
 		//begins to mine the resource
-		setInterval(function() { t.mine(); }, 1000);
+		setInterval(function() { t.mine(); }, this.tickLength);
 
 		}
 
@@ -83,6 +93,10 @@ class Resource {
 	}
 }
 
+// function tierUp(res) {
+// 	if 
+// }
+
 function get(el) {
 	return document.getElementById(el);
 }
@@ -101,9 +115,9 @@ function pauseGame() {
 	console.log(pause)
 }
 
-const Peridoto = new Resource("peridoto", 1, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
-const Jasper = new Resource("jasper", 1, [0.25, 0.45], [1, 2, 5, 15, 100]);
-const Carnelian = new Resource("carnelian", 1, [0.3, 0.4], [2, 4, 12, 15, 1000]);
+const Peridoto = new Resource("peridoto", 4, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
+// const Jasper = new Resource("jasper", 1, [0.25, 0.45], [1, 2, 5, 15, 100]);
+// const Carnelian = new Resource("carnelian", 1, [0.3, 0.4], [2, 4, 12, 15, 1000]);
 
 window.setInterval(function() {
 	get("cash").innerHTML = cash;

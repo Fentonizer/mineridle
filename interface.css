@@ -26,27 +26,53 @@ body {
 	user-select: none;
 	font-size: 20px;
 	background-color: #c2fcff;
+	margin: auto;
+	min-width: 1064px;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23aad2ff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+button {
+	display: flex;
+	border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+	text-shadow: 1px 1px 3px #000000;
+	box-shadow: 0px 2px 2px 0px rgba(73,77,84,1);
+	color: #ffffff;
+	font-size: 0.7em;
+	border: none;
+}
+
+button:hover {
+	cursor: pointer;
+	box-shadow: inset 0px 0px 5px 0px rgba(73,77,84,1);
 }
 
 #cashDisplay {
 	display: flex;
 	justify-content: center;
 	font-size: 36px;
+	padding: 25px;
 }
 
 #resourceWrapper {
 	display: grid;
-	grid-template-columns: repeat(4, 200px);
-	grid-template-rows: repeat(5, 280px);
+	grid-template-columns: repeat(4, 250px);
+	grid-template-rows: repeat(5, 375px);
 	grid-gap: 15px;
 	justify-content: center;
 }
 
+#upgradesWrapper {
+	display: grid;
+	grid-row: 8 / 9;
+}
+
 .resource {
 	display: grid;
-	grid-template-rows: repeat(7, 7fr);
-	grid-template-columns: 50% 50%;
+	grid-template-rows: repeat(7, 7fr) repeat(2, 50px);
+	grid-template-columns: repeat(4, 4fr);
+	grid-gap: 2px;
 	border: 5px solid;
 	border-radius: 10px;
 	padding: 10px;
@@ -61,7 +87,7 @@ body {
 	margin-bottom: 0;
 	justify-content: center;
 	align-items: center;
-	grid-column: 1 / span 2;
+	grid-column: 1 / 5;
 	border-radius: 5px 5px 0 0;
 	letter-spacing: 3px;
 	border-bottom: 5px solid;
@@ -73,14 +99,15 @@ body {
 	align-items: center;
 	justify-content: start;
 	grid-row: span 1;
-	grid-column: span 1;
+	grid-column: span 2;
 }
 
 .resValue {
 	display: flex;
 	align-items: center;
 	justify-self: end;
-	grid-column: 2;
+	grid-row: span 1;
+	grid-column: span 2;
 	margin-right: -10px;
 	padding: 0 10px 0 10px;
 	border-right: 5px solid;
@@ -88,33 +115,32 @@ body {
 }
 
 .sellButton {
-	padding: 0;
-	border-radius: 5px;
-	text-shadow: 1px 1px 3px #000000;
-	color: #ffffff;
-	font-size: 20px;
+	margin: 0 5px 5px 5px;
 	background-color: #3498db;
-	border: solid #1f628d 3px;
-	grid-row: 7;
-	box-shadow: 0px 2px 2px 0px rgba(73,77,84,1)
-}
-
-.sellButton:hover {
-	cursor: pointer;
-	top: -4px;
-	box-shadow: none;
-	border: solid #1f628d 3px;
-	background-color: #44a8eb;
-	box-shadow: inset 0px 0px 5px 0px rgba(73,77,84,1);
+	border-color: #111166;
+	grid-row: 7 / span 1;
+	grid-column: 1 / span 2;
 }
 
 .totValue {
 	grid-row: 7;
-	grid-column: 2;
+	grid-column: 4 / 5;
 	justify-self: end;
     align-items: center;
     display: flex;
 }
+
+.upgrade {
+	margin: auto; 
+	width: 50px;
+	height: 50px;
+    grid-row: 8;
+}
+
+.tierUp { background-color: #21c679; }
+.valueUp { background-color: #c62179; }
+.oddsUp { background-color: #79c621; }
+.tickUp { background-color: #797979; }
 
 .Common { border-color: #c9d4e8; }
 .feedbackCommon { animation-name: feedbackCommon; animation-duration: 0.5s; }
@@ -139,11 +165,23 @@ body {
 .tier1 {
 	border-color: grey;
 	background-color: #a1a7af;
-	box-shadow: -5px 5px 5px 0px rgba(73,77,84,1);
+	box-shadow: 0px 7px 1px 0px rgba(73,77,84,1);
 }
 
 .tier1 .resTitle {
 	color: white;
 	background-color: #a0a9b8;
 	border-bottom: 5px solid grey;
+}
+
+.tier2 {
+	border-color: #3f7a3f;
+	background-color: #66c466;
+	box-shadow: 0px 7px 1px 0px rgba(20,97,20,1);
+}
+
+.tier2 .resTitle {
+	color: white;
+	background-color: #66c466;
+	border-bottom: 5px solid #3f7a3f;
 }
