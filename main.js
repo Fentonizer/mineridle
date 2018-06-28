@@ -4,7 +4,7 @@ let pause = false;
 const Qualities = ["Common", "Rare", "Super", "Ultra", "Epic"];
 let cash = 5;
 let upgrades = ["tierUp", "oddsUp", "valueUp", "tickUp"];
-let upgradesName = ["Tier+", "Odds+", "Value+", "Tick+"]
+let upgradesName = ["Tier+", "Odds+", "Value+", "Tick+"] 
 
 // TIER 1 - C / R
 // TIER 2 - C / R / S
@@ -15,87 +15,99 @@ class Resource {
 	constructor(name, tier, odds, saleVal) {
 	
 		//creates the basic objects and an array of odds
-		var t = this;
+		const t = this;
+		let startMining;
+		this.name = name;
 		this.nameU = upper(name);
-		this.nameL = name;
 		this.tier = tier;
 		this.qual = {};
 		this.saleVal = saleVal;
 		this.odds = odds;
-		this.tickLength = 1000;
+		this.tickLength = 2000;
+		this.tickUpCost = 5000;
 		this.tierUpCost = 10000;
-		
 
 		//selling function
 		this.sell = function () {
 			cash = cash + t.val();
 			for (let i in this.qual) {
 				this.qual[i] = 0;
-				get(t.nameL+i).innerHTML = this.qual[i];
+				get(name+i).innerHTML = this.qual[i];
 			}
-			get(t.nameL+"Value").innerHTML = t.val();
+			get(t.name+"Value").innerHTML = t.val();
 		}
 
 		//calculating the total value of the stored resources
 		this.val = function() {
 			let x = 0, j = 0;
 			for (let i in this.qual) {
-				x = x + (this.qual[i] * this.saleVal[j])
+				x = x + (this.qual[i] * this.saleVal[j]);
 				j++;
 			}
 			return x;
 		}
 
-		this.tierUp = function() {
-			//write code to put more HTML on the screen when the resources tier goes up
+		this.tickUp = function() {
+			if (cash > this.tickUpCost) {
+				cash = cash - tickUpCost;
+				this.tickLength = this.tickLength - 500;
+				clearTimeout(startMining);
+				get(name+"TickLength").innerHTML = this.tickLength;
+				startMining = setInterval(function() {t.mine();}, this.tickLength);
+			}
+			else noCash();
 		}
-		
+
 		//adds the qualities to the just created object based on the tier of the resource
 		for (let i = 0; i < tier + 1; i++) {
 			this.qual[Qualities[i]] = 0;
 		}		
 
 		//draws the HTML to the page
-		get(name).innerHTML+=("<span class='resTitle'>"+this.nameU+"</span>");
-		get(name).innerHTML+=("<button class='sellButton' id='"+name+"Sell'>SELL</button>")
-		get(name).innerHTML+=("<span class='totValue'>£<span id="+name+"Value>0</span></span>")
+		get(name).innerHTML+=("<span class='resTitle'><span>"+this.nameU+" <span class='tick' id='"+name+"TickLength'>"+this.tickLength+"</span></span>");
+		get(name).innerHTML+=("<button class='sellButton' id='"+name+"Sell'>SELL</button>");
+		get(name).innerHTML+=("<span class='totValue'>£<span id="+name+"Value>0</span></span>");
 		for (let i in this.qual) {
-			get(name).innerHTML+=("<span class='resLine'>"+i+":</span><span class='resValue "+i+"' id="+name+i+">0</span>")
+			get(name).innerHTML+=("<span class='resLine'>"+i+":</span><span class='resValue "+i+"' id="+name+i+">0</span>");
 		}
 		for (let i = 0; i < upgrades.length; i++) {
-			get(name).innerHTML+=("<button class='upgrade "+upgrades[i]+"' onclick='"+upgrades[i]+"("+name+")'>"+upgradesName[i]+"</button>")
+			get(name).innerHTML+=("<button class='upgrade "+upgrades[i]+"' id='"+name+upper(upgrades[i])+"'>"+upgradesName[i]+"</button>");
 		}
 		get(name).style.opacity = "1"
-		document.getElementById(name+"Sell").onclick = this.sell.bind(this);
+		get(name+"Sell").onclick = this.sell.bind(this);
+		get(name+upper(upgrades[3])).onclick = this.tickUp.bind(this);
 
 		//begins to mine the resource
-		setInterval(function() { t.mine(); }, this.tickLength);
-
-		}
+		startMining = setInterval(function() {t.mine();}, this.tickLength);
+	}
 
 	mine() {
 		if (pause === false) { 
 			let x = Math.random();
 			let j = 0;
 			let t = this;
+			console.log(this.name+" rolled: "+x.toFixed(2));
+			get(this.name+"TickLength").classList.add("feedbackTick");
+			setTimeout(function() { get(t.name+"TickLength").classList.remove("feedbackTick"); }, 499);
 			for (let i in this.qual) {
 				if (x < this.odds[j]) {
 					this.qual[i]++;
-					get(this.nameL+i).innerHTML = this.qual[i];
-					get(this.nameL+"Value").innerHTML = this.val();
-					get(this.nameL+i).classList.add("feedback"+i);
-					setTimeout(function() { get(t.nameL+i).classList.remove("feedback"+i); }, 499);
+					get(this.name+i).innerHTML = this.qual[i];
+					get(this.name+"Value").innerHTML = this.val();
+					get(this.name+i).classList.add("feedback"+i);
+					setTimeout(function() { get(t.name+i).classList.remove("feedback"+i); }, 499);
 					break;
 				}
-				j++;
+			j++;
 			}
 		}
 	}
 }
 
-// function tierUp(res) {
-// 	if 
-// }
+function noCash() {
+	get("cashDisplay").classList.add("feedbackCash");
+	setTimeout(function() { get("cashDisplay").classList.remove("feedbackCash"); }, 1000);
+}
 
 function get(el) {
 	return document.getElementById(el);
@@ -115,7 +127,7 @@ function pauseGame() {
 	console.log(pause)
 }
 
-const Peridoto = new Resource("peridoto", 4, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
+const Peridoto = new Resource("peridoto", 1, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
 // const Jasper = new Resource("jasper", 1, [0.25, 0.45], [1, 2, 5, 15, 100]);
 // const Carnelian = new Resource("carnelian", 1, [0.3, 0.4], [2, 4, 12, 15, 1000]);
 
