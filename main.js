@@ -4,7 +4,7 @@
 
 let pause = false;
 const Qualities = ["Common", "Rare", "Super", "Ultra", "Epic"];
-let cash = 5000;
+let cash = 5000000;
 let upgrades = ["oddsUp", "valueUp", "tickUp", "tierUp"];
 let upgradesName = ["Odds+", "Value+", "Tick+", "Tier+"]; 
 
@@ -66,7 +66,7 @@ class Resource {
 						this.odds[i] = ((this.odds[i] * 1000 + 25) / 1000);
 						console.log(this.odds[i]);
 					}
-					this.oddsUpCost = Math.round(this.oddsUpCost * 1.1);
+					this.oddsUpCost = Math.round(this.oddsUpCost * 1.5);
 					get("help").innerHTML=("This upgrade costs: £"+beautify(this.oddsUpCost));
 				}
 				else noCash();
@@ -123,7 +123,7 @@ class Resource {
 					get(this.name+i).innerHTML = this.qual[i];
 					get(this.name+"Value").innerHTML = this.val();
 					get(this.name+i).classList.add("feedback"+i);
-					setTimeout(function() { get(t.name+i).classList.remove("feedback"+i); }, 499);
+					setTimeout(function() { get(t.name+i).classList.remove("feedback"+i); }, 100);
 					break;
 				}
 			j++;
@@ -135,9 +135,10 @@ class Resource {
 function noCash() {
 	get("cashDisplay").classList.add("feedbackCash");
 	get("infoDisplay").classList.add("feedbackCash");
-	setTimeout(function() { get("cashDisplay").classList.remove("feedbackCash"); }, 1000);
-	setTimeout(function() { get("infoDisplay").classList.remove("feedbackCash"); }, 1000);
-
+	setTimeout(function() {
+		get("cashDisplay").classList.remove("feedbackCash"); 
+		get("infoDisplay").classList.remove("feedbackCash");
+	}, 1000);
 }
 
 function get(el) {
@@ -160,7 +161,12 @@ function pauseGame() {
 
 function help(item) {
 	get("infoDisplay").style.opacity = "1"
-	get("help").innerHTML = "This upgrade costs: £"+beautify(this[item]);
+	if (item == "oddsUpCost" && this.odds[4] == 1) {
+		get("help").innerHTML = this.nameU +" is already at the maximum odds!";
+	}
+	else { 
+		get("help").innerHTML = "This upgrade costs: £"+beautify(this[item]);
+	}
 }
 
 function maxOdds(item) {
@@ -170,6 +176,7 @@ function maxOdds(item) {
 
 function helpClear() {
 	get("infoDisplay").style.opacity = "0"
+	get("help").innerHTML = " ";
 }
 
 function beautify(x)
@@ -178,11 +185,9 @@ function beautify(x)
 }
 
 // constructor(name, tier, odds, saleVal, oddsUpCost, valueUpCost, tickUpCost, tierUpCost)
-const Peridoto = new Resource("peridoto", 0, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120], 10, 500, 5000, 25000);
-const Jasper = new Resource("jasper", 1, [0.25, 0.45], [1, 2, 5, 15, 100]);
-const Carnelian = new Resource("carnelian", 2, [0.3, 0.4], [2, 4, 12, 15, 1000]);
-const Ariaga = new Resource("ariaga", 3, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120]);
-const Ariaga2 = new Resource("ariaga2", 4, [0.25, 0.45], [1, 2, 5, 15, 100]);
+const Peridoto = new Resource("peridoto", 0, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120], 50, 500, 5000, 25000);
+const Jasper = new Resource("jasper", 0, [0.25, 0.45], [1, 2, 5, 15, 100]);
+const Carnelian = new Resource("carnelian", 0, [0.3, 0.4], [2, 4, 12, 15, 1000]);
 
 window.setInterval(function() {
 	get("cash").innerHTML = beautify(cash);
