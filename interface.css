@@ -31,12 +31,25 @@ body {
 	user-select: none;
 	font-size: 20px;
 	background-color: #c2fcff;
-	margin: auto;
-	min-width: 1064px;
+	transition: background-color 0.3s;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23aad2ff' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
 }
 
-button {
+ul {
+	list-style-type: none;
+}
+
+li {
+	display: inline;
+	margin-right: 5px;
+}
+
+button:focus {
+	outline: none;
+}
+
+.buttons, .otherButton, .upgradeButton {
+	user-select: none;
 	display: flex;
 	border-radius: 5px;
     justify-content: center;
@@ -48,9 +61,47 @@ button {
 	border: none;
 }
 
-button:hover {
+.otherButton {
+	text-shadow: none;
+	height: 30px;
+	margin: 10px;
+	background-color: lightblue;
+	color: black;
+}
+
+.buttons:hover, .otherButton:hover {
 	cursor: pointer;
-	box-shadow: inset 0px 0px 5px 0px rgba(73,77,84,1);
+	box-shadow: 0px 1px 1px 0px rgba(73,77,84,1);
+}
+
+.buttons:active, .otherButton:active {
+	box-shadow: inset 0px 1px 1px 0px rgba(73,77,84,1);
+	cursor: pointer;
+	outline: none;
+	border: none;
+}
+
+#helpPopup {
+	position: fixed;
+	background-color: grey;
+	margin-top: 12%;
+	width: 800px;
+	border: solid 5px black;
+	font-size: 24px;
+	color: white;
+	padding: 15px;
+	opacity: 0;
+	z-index: -100;
+	transition: opacity 0.3s;
+	border-radius: 15px;
+}
+
+#mainWrapper {
+	display: flex;
+	padding: 20px 20px 0 20px;
+	justify-content: center;
+	margin: auto;
+	transition: opacity 0.3s;	
 }
 
 #display {
@@ -88,16 +139,58 @@ button:hover {
 }
 
 #resourceWrapper {
-	display: grid;
+	display: inline-grid;
 	grid-template-columns: repeat(5, 250px);
 	grid-template-rows: repeat(5, 375px);
 	grid-gap: 15px;
 	justify-content: center;
 }
 
-#upgradesWrapper {
+#globalUpgradesWrapper {
+	display: inline-grid;
+	grid-template-rows: repeat(2, 250px);
+	grid-gap: 25px;
+}
+
+.upgradesBox {
 	display: grid;
-	grid-row: 8 / 9;
+	grid-template-columns: repeat(3, 75px);
+	grid-template-rows: 45px repeat(3, 75px);
+	grid-gap: 5px;
+	border: 3px solid;
+	border-radius: 10px;
+}
+
+#mainUpgrades {
+	background-color: #77ff77;
+	border-color: green;
+	box-shadow: 0px 7px 1px 0px rgb(77,128,77);
+}
+
+#mainUpgrades .upgradeTitle {
+	border-color: green;
+}
+
+#research {
+	background-color: #ff7777;
+	border-color: darkred;
+	box-shadow: 0px 7px 1px 0px rgb(128,77,77);
+}
+
+#research .upgradeTitle {
+	border-color: darkred;
+}
+
+.upgradeTitle {
+	display: flex;
+	font-weight: bold;
+	font-size: 26px;
+	justify-content: center;
+	align-items: center;
+	align-content: end;
+	grid-column: 1 / 5;
+	letter-spacing: 3px;
+	border-bottom: 3px solid;
 }
 
 .resource {
@@ -108,9 +201,7 @@ button:hover {
 	border: 5px solid;
 	border-radius: 10px;
 	padding: 10px;
-	opacity: 0;
 	font-weight: bold;
-	box-shadow: 0px 7px 1px 0px;
 }
 
 .resTitle {
@@ -137,6 +228,7 @@ button:hover {
 	border-color: grey;
 	background-color: #a1a7af;
 	box-shadow: 0px 7px 1px 0px rgb(73,77,84);
+	transition: opacity 1s;
 }
 
 .tier1 .resTitle {
@@ -149,6 +241,7 @@ button:hover {
 	border-color: #3f7a3f;
 	background-color: #66c466;
 	box-shadow: 0px 7px 1px 0px rgb(20,97,20);
+
 }
 
 .tier2 .resTitle {
@@ -182,6 +275,7 @@ button:hover {
 }
 
 .tier5 {
+	color: black;
 	border-color: #d8ac00;
 	background-color: #ffd84f;
 	box-shadow: 0px 7px 1px 0px rgb(179,87,0);
@@ -215,8 +309,8 @@ button:hover {
 }
 
 .sellButton {
-	margin: 0 5px 5px 5px;
-	background-color: #3498db;
+	margin: 0 5px 5px 0;
+	background-color: #001e86;
 	border-color: #111166;
 	grid-row: 7 / span 1;
 	grid-column: 1 / span 2;
@@ -235,10 +329,7 @@ button:hover {
     grid-row: 8;
 }
 
-.tierUp { background-color: #797979; }
-.valueUp { background-color: #c62179; }
-.oddsUp { background-color: #79c621; }
-.tickUp { background-color: #21c679; }
+.tierUp, .valueUp, .oddsUp, .tickUp { background-color: #8fd6e463; }
 
 .Common { border-color: #c9d4e8; }
 .feedbackCommon { animation-name: feedbackCommon; animation-duration: 0.5s; }
@@ -265,4 +356,3 @@ button:hover {
 
 .feedbackCash { animation-name: feedbackCash; animation-duration: 2s; }
 @keyframes feedbackCash { from {color: red;}; to {color: initial;}; }
-
