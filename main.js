@@ -5,9 +5,9 @@
 let pause = false;
 let helpOn = false;
 const qualities = ["Common", "Rare", "Super", "Ultra", "Epic"];
-let cash = 0;
+let cash = 1000000;
 let upgrades = ["oddsUp", "valueUp", "tickUp", "tierUp"];
-let upgradesName = ["Odds+", "Value+", "Tick+", "Tier+"]; 
+let upgradesName = ["Odds+", "Value+", "Tick+", "Tier+"];
 
 class Resource {
 	constructor(name, tier, odds, saleVal, oddsUpCost, valueUpCost, tickUpCost, tierUpCost) {
@@ -16,6 +16,7 @@ class Resource {
 		const t = this;
 		this.name = name;
 		this.nameU = upper(name);
+		this.nameShort = upper(name).substring(0,3);
 		this.tier = tier;
 		this.qual = {};
 		this.saleVal = saleVal;
@@ -115,6 +116,7 @@ class Resource {
 		}	
 
 		//draws the HTML to the page
+		// get(name).insertAdjacentHTML('afterbegin', "<div class='minHelp'> ?</div>");
 		get(name).insertAdjacentHTML('beforeend', "<span class='resTitle'><span>"+this.nameU+"<span class='tick' id='"+name+"TickLength'>"+this.tickLength+"</span></span></span>");
 		get(name).insertAdjacentHTML('beforeend', "<button class='buttons sellButton' id='"+name+"Sell'>SELL</button>");
 		get(name).insertAdjacentHTML('beforeend', "<span class='totValue'>£<span id="+name+"Value>0</span></span>");
@@ -158,6 +160,10 @@ class Resource {
 					get(this.name+"Value").innerHTML = this.val();
 					get(this.name+i).classList.add("feedback"+i);
 					setTimeout(function() { get(t.name+i).classList.remove("feedback"+i); }, 499);
+					mineHistory();
+					get("mh0").classList.add("used");
+					get("mh0").classList.add(qualities[j]);
+					get("mh0").innerHTML = t.nameShort;
 					break;
 				}
 			j++;
@@ -237,9 +243,9 @@ function beautify(x) {
 
 
 // constructor(name, tier, odds, saleVal, oddsUpCost, valueUpCost, tickUpCost, tierUpCost)
-let Peridoto = new Resource("peridoto", 0, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 3, 8, 22, 120], 1, 5, 100, 1000);
-// const Jasper = new Resource("jasper", 1, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 2, 5, 15, 100], 3, 3, 3, 3);
-// const Carnelian = new Resource("carnelian", 2, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 2, 5, 15, 100], 3, 3, 3, 3);
+let Peridot = new Resource("peridot", 0, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 2, 5, 15, 100], 3, 3, 3, 3);
+// let Jasper = new Resource("jasper", 1, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 2, 5, 15, 100], 3, 3, 3, 3);
+// let Carnelian = new Resource("carnelian", 2, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 2, 5, 15, 100], 3, 3, 3, 3);
 
 function unlockNext(name, tier) {
 	let el = "unlock" + upper(name);
@@ -260,3 +266,24 @@ function removeElement(elementId) {
 window.setInterval(function() {
 	get("cash").innerHTML = beautify(cash);
 	}, 30);
+
+function drawMineHistory() {
+	for (let i = 0; i < 30; i++) {
+		get("mineHistory").insertAdjacentHTML("beforeend", "<span id=mh"+i+" class='empty'></span>");
+	}
+}
+
+function mineHistory() {
+	let i = document.getElementsByClassName("used").length;
+	for (i; i > 0; i--) {
+		let x = (get("mh" + (i - 1))).classList;
+		let y = (get("mh" + (i - 1))).innerHTML;
+		if (i + 1 < 31) {
+			get("mh" + i).classList = x;
+			get("mh" + i).innerHTML = y;
+			(get("mh" + (i - 1))).classList = '';
+		}
+	}
+}
+
+drawMineHistory();

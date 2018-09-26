@@ -26,7 +26,7 @@ h1 {
 }
 
 body {
-	font-family: 'Lato', sans-serif;
+	font-family: 'Varela Round', sans-serif;
 	cursor: default;
 	user-select: none;
 	font-size: 20px;
@@ -110,6 +110,7 @@ button:focus {
 	bottom: 0;
 	width: 100%;
 	background-color: rgba(200,200,200,0.5);
+	margin-bottom: 5px;
 }
 
 #cashDisplay {
@@ -136,6 +137,34 @@ button:focus {
     justify-content: center;
     font-size: 18px;
     padding: 0 0 15px 0;
+}
+
+#mineHistory {
+	padding: 8px;
+	display: grid;
+	justify-content: center;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: rgba(180,180,180,0.5);
+	grid-template-columns: repeat(30, 50px);
+	grid-template-rows: 50px;
+	grid-gap: 3px;
+}
+
+#mineHistory .used {
+	display: flex;
+	margin: auto;
+    justify-content: center;
+    align-items: center;
+	width: 40px;
+	height: 40px;
+	text-shadow: 1px 1px 3px #000000;
+	font-size: 20px;
+	border-width: 5px;
+	border-radius: 40px;
+	border-style: outset;
+
 }
 
 #resourceWrapper {
@@ -189,7 +218,7 @@ button:focus {
 	align-items: center;
 	align-content: end;
 	grid-column: 1 / 5;
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 	border-bottom: 3px solid;
 }
 
@@ -222,6 +251,48 @@ button:focus {
 	font-style: italic;
 	border-radius: 5px;
 	padding: 3px;
+}
+
+.minHelp {
+	position: absolute;
+	background-color: grey;
+	color: white;
+	padding: 0px 0px 3px 2px;
+	width: 18px;
+	height: 18px;
+	border-right: 1px solid grey;
+	border-bottom: 1px solid grey;
+	border-radius: 20px 0 20px 0;
+}
+
+.minHelp span {
+	display: flex;
+	font-size: 12px;
+	padding: 3px;
+}
+
+.tooltip {
+	opacity: 0;
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-style: outset;
+	border-color: #c0c600;
+    border-radius: 5px;
+    left: 125%;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+   	text-shadow: none;
+   	font-size: 12px;
+   	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.minHelp:hover .tooltip {
+    visibility: visible;
+    opacity: 0.99;
 }
 
 .tier1 {
@@ -331,7 +402,7 @@ button:focus {
 
 .tierUp, .valueUp, .oddsUp, .tickUp { background-color: #8fd6e463; }
 
-.Common { border-color: #c9d4e8; }
+.Common { border-color: #c9d4e8;}
 .feedbackCommon { animation-name: feedbackCommon; animation-duration: 0.5s; }
 @keyframes feedbackCommon { from {background-color: #c9d4e8}; to {background-color: initial}; }
 
@@ -356,3 +427,34 @@ button:focus {
 
 .feedbackCash { animation-name: feedbackCash; animation-duration: 2s; }
 @keyframes feedbackCash { from {color: red;}; to {color: initial;}; }
+
+#mineHistory .Common {
+	border-color: grey;
+	background-color: #a1a7af;
+	box-shadow: 0px 4px 1px 0px rgb(73,77,84);
+}
+
+#mineHistory .Rare {
+	border-color: #3f7a3f;
+	background-color: #66c466;
+	box-shadow: 0px 4px 1px 0px rgb(20,97,20);
+}
+
+#mineHistory .Super {
+	border-color: #0065ff;
+	background-color:#329bff;
+	box-shadow: 0px 4px 1px 0px rgb(0,0,220);
+}
+
+#mineHistory .Ultra {
+	border-color: #8e2bd1;
+	background-color: #c672ff;
+	box-shadow: 0px 4px 1px 0px rgb(105,0,150);
+}
+
+#mineHistory .Epic {
+	color: black;
+	border-color: #d8ac00;
+	background-color: #ffd84f;
+	box-shadow: 0px 4px 1px 0px rgb(179,87,0);
+}

@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>MINERIDLE</title>
-		<link href='https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
  		<link rel="stylesheet" type="text/css" href="interface.css">
 
 	</head>
@@ -17,7 +17,7 @@
 		<button class="otherButton" onclick="pauseGame()">PAUSE</button>
 		<button class="otherButton" onclick="gameHelp()">HELP</button>
 		<div id="helpPopup">
-			<p>Welcome to Miner-Idle! Peridoto is already being mined, but we can only find the common variety for now. Sell these and purchase upgrades to increase what you can find and the likelihood of finding it. Your total cash and helpful tips are displayed at the bottom of the screen.</p>
+			<p>Welcome to Miner-Idle! Peridot is already being mined, but we can only find the common variety for now. Sell these and purchase upgrades to increase what you can find and the likelihood of finding it. Your total cash and helpful tips are displayed at the bottom of the screen.</p>
 			<p>The number next to the minerals' name is how often (in milliseconds) your team will go mining. They won't always find something! Increase this with the <em>Odds+</em> button and increase the speed of mining with the <em>Tick+</em> button.</p>
 			<button class="otherButton" onclick="gameHelp()">Close</button>
 		</div>
@@ -28,7 +28,11 @@
 
 		<div id="mainWrapper">
 			<div id="resourceWrapper">
-				<div class="resource tier1" id="peridoto"></div>
+				<div class="resource tier1" id="peridot"></div>
+					<div class="minHelp">
+						<span>?</span>
+						<span class="tooltip">HELLO</span>
+					</div>
 			</div>
 
 			<div id="globalUpgradesWrapper">
@@ -46,6 +50,8 @@
 			<div id="display">
 				<span id="cashDisplay">CASH: £<span id="cash">0</span></span>
 				<em><span id="infoDisplay"><span id="help"></span></span></em>
+				<div id="mineHistory">
+				</div>
 			</div>
 		</div>
 	<script type="text/javascript" src="main.js"></script>	
