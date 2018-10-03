@@ -91,7 +91,7 @@ button:focus {
 	color: white;
 	padding: 15px;
 	opacity: 0;
-	z-index: -100;
+	z-index: -1;
 	transition: opacity 0.3s;
 	border-radius: 15px;
 }
@@ -140,7 +140,10 @@ button:focus {
 }
 
 #mineHistory {
+	opacity: 0;
+	height: 0;
 	padding: 8px;
+	visibility: hidden;
 	display: grid;
 	justify-content: center;
 	left: 0;
@@ -150,11 +153,12 @@ button:focus {
 	grid-template-columns: repeat(30, 50px);
 	grid-template-rows: 50px;
 	grid-gap: 3px;
+	transition: opacity 1s;
 }
 
-#mineHistory .used {
-	display: flex;
+.mineLog {
 	margin: auto;
+	display: grid;
     justify-content: center;
     align-items: center;
 	width: 40px;
@@ -164,13 +168,12 @@ button:focus {
 	border-width: 5px;
 	border-radius: 40px;
 	border-style: outset;
-
 }
 
 #resourceWrapper {
 	display: inline-grid;
 	grid-template-columns: repeat(5, 250px);
-	grid-template-rows: repeat(5, 375px);
+	grid-auto-rows: 375px;
 	grid-gap: 15px;
 	justify-content: center;
 }
@@ -257,49 +260,49 @@ button:focus {
 	position: absolute;
 	background-color: grey;
 	color: white;
-	padding: 0px 0px 3px 2px;
-	width: 18px;
-	height: 18px;
-	border-right: 1px solid grey;
-	border-bottom: 1px solid grey;
-	border-radius: 20px 0 20px 0;
+	width: 10px;
+	height: 17px;
+	border-radius: 0 0 13px 0;
 }
 
-.minHelp span {
+.minHelp .questionMark {
 	display: flex;
 	font-size: 12px;
-	padding: 3px;
 }
 
 .tooltip {
-	opacity: 0;
-    visibility: hidden;
-    width: 200px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-style: outset;
-	border-color: #c0c600;
-    border-radius: 5px;
-    left: 125%;
-    padding: 10px;
+    padding: 20px;
     position: absolute;
-    z-index: 1;
-   	text-shadow: none;
-   	font-size: 12px;
-   	transition: opacity 0.3s, visibility 0.3s;
+    background-color: black;
+    opacity: 1;
+    z-index: -1;
+    left: 0px;
+    top: 43px;
+	width: 240px;
+    border-radius: 0 0 6px 6px;
+    font-weight: normal;
+   	font-style: italic;
+    font-size: 14px;
+    transition: opacity 0.4s, z-index 0.4s;
 }
 
-.minHelp:hover .tooltip {
-    visibility: visible;
-    opacity: 0.99;
+thead, tbody {
+    vertical-align: top;
+    text-align: center;
+}
+
+thead {
+/*	font-weight: bolder;*/
+}
+
+.ttSpan {
+	padding-left: 20px;
 }
 
 .tier1 {
 	border-color: grey;
 	background-color: #a1a7af;
 	box-shadow: 0px 7px 1px 0px rgb(73,77,84);
-	transition: opacity 1s;
 }
 
 .tier1 .resTitle {

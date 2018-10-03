@@ -5,7 +5,7 @@
 let pause = false;
 let helpOn = false;
 const qualities = ["Common", "Rare", "Super", "Ultra", "Epic"];
-let cash = 1000000;
+let cash = 1000;
 let upgrades = ["oddsUp", "valueUp", "tickUp", "tierUp"];
 let upgradesName = ["Odds+", "Value+", "Tick+", "Tier+"];
 
@@ -26,6 +26,21 @@ class Resource {
 		this.valueUpCost = valueUpCost;
 		this.tickUpCost = tickUpCost;
 		this.tierUpCost = tierUpCost;
+		this.tooltipVisible = false;
+
+		this.tooltip = function() {
+			let el = "tt" + this.nameU
+			if (this.tooltipVisible == false) {
+				get(el).style.opacity = 1;
+				get(el).style.zIndex = 1;
+				this.tooltipVisible = true;
+			}
+			else {
+			get(el).style.opacity = 0;
+			get(el).style.zIndex = -1;
+			this.tooltipVisible = false;
+			}			 
+		};
 
 		//selling function
 		this.sell = function () {
@@ -110,20 +125,19 @@ class Resource {
 			}
 		};
 
-		//adds the qualities to the just created object based on the tier of the resource
-		for (let i = 0; i < tier + 1; i++) {
-			this.qual[qualities[i]] = 0;
-		}	
-
 		//draws the HTML to the page
-		// get(name).insertAdjacentHTML('afterbegin', "<div class='minHelp'> ?</div>");
 		get(name).insertAdjacentHTML('beforeend', "<span class='resTitle'><span>"+this.nameU+"<span class='tick' id='"+name+"TickLength'>"+this.tickLength+"</span></span></span>");
 		get(name).insertAdjacentHTML('beforeend', "<button class='buttons sellButton' id='"+name+"Sell'>SELL</button>");
 		get(name).insertAdjacentHTML('beforeend', "<span class='totValue'>£<span id="+name+"Value>0</span></span>");
-
-		for (let i in this.qual) {
-			get(name).insertAdjacentHTML('beforeend', "<span class='resLine'>"+i+":</span>");
-			get(name).insertAdjacentHTML('beforeend', "<span class='resValue "+i+"' id="+name+i+">0</span>");
+		
+		//draws the tooltip/stats screen for the mineral.
+		get(name).insertAdjacentHTML('beforeend', "<div class='minHelp' id='ttToggle"+this.nameU+"'><span class='questionMark'>?</span><table class='tooltip' id='tt"+this.nameU+"'></table></div>");
+		
+		//adds the qualities to the just created object based on the tier of the resource, and also adds this to the stats page.
+		for (let i = 0; i < tier + 1; i++) {
+			this.qual[qualities[i]] = 0;
+			get(name).insertAdjacentHTML('beforeend', "<span class='resLine'>"+qualities[i]+":</span>");
+			get(name).insertAdjacentHTML('beforeend', "<span class='resValue "+qualities[i]+"' id="+name+qualities[i]+">0</span>");
 		}
 
 		for (let i = 0; i < upgrades.length; i++) {
@@ -142,9 +156,23 @@ class Resource {
 		get(name+upper(upgrades[1])).addEventListener("mouseup", this.valueUp.bind(this));
 		get(name+upper(upgrades[2])).addEventListener("mouseup", this.tickUp.bind(this));
 		get(name+upper(upgrades[3])).addEventListener("mouseup", this.tierUp.bind(this));
+		get("ttToggle"+this.nameU).addEventListener("mouseup", this.tooltip.bind(this));
 
 		//begins to mine the resource
 		let startMining = setInterval(function() {t.mine();}, this.tickLength);
+		let startRefreshing = setInterval(function() { t.refreshTooltip();}, 100);
+	}
+
+	refreshTooltip() {
+		get("tt"+this.nameU).innerHTML = "";
+		for (let i = 0; i < this.tier + 1; i++) {
+			if (i == 0) {
+				get("tt" + this.nameU).insertAdjacentHTML('beforeend', "<thead><tr><th>Quality</th><th>Odds</th><th>Value</th></tr></thead>");
+				get("tt" + this.nameU).insertAdjacentHTML('beforeend', "<tbody>");
+			}
+			get("tt" + this.nameU).insertAdjacentHTML('beforeend', "<tr><td>"+qualities[i]+"</td><td>"+this.odds[i].toFixed(3)+"</td><td>£"+this.saleVal[i]+"</td></tr>");
+		}
+		get("tt" + this.nameU).insertAdjacentHTML('beforeend', "</tbody");
 	}
 
 	mine() {
@@ -160,10 +188,13 @@ class Resource {
 					get(this.name+"Value").innerHTML = this.val();
 					get(this.name+i).classList.add("feedback"+i);
 					setTimeout(function() { get(t.name+i).classList.remove("feedback"+i); }, 499);
-					mineHistory();
-					get("mh0").classList.add("used");
-					get("mh0").classList.add(qualities[j]);
-					get("mh0").innerHTML = t.nameShort;
+					get("mineHistory").insertAdjacentHTML("afterbegin", "<span id="+x+" class='mineLog'></span>");
+					get(x).classList.add(qualities[j]);
+					get(x).innerHTML = t.nameShort;
+					if (document.getElementsByClassName("mineLog").length > 30) {
+						let el = document.getElementsByClassName("mineLog")[30].id;
+						removeElement(el);
+					}
 					break;
 				}
 			j++;
@@ -254,7 +285,13 @@ function unlockNext(name, tier) {
 	get("resourceWrapper").insertAdjacentHTML('beforeend', '<div class="resource" id='+name+'></div>');
 	get(name).classList.add("tier"+tier);
 	upperName = new Resource(name, tier, [0.2, 0.3, 0.35, 0.37, 0.375], [1, 2, 5, 15, 100], 3, 3, 3, 3);
+}
 
+function unlockMineLog() {
+	x = get("mineHistory").style;
+	x.opacity = "1";
+	x.visibility = "visible";
+	x.height = "auto";
 }
 
 function removeElement(elementId) {
@@ -266,24 +303,3 @@ function removeElement(elementId) {
 window.setInterval(function() {
 	get("cash").innerHTML = beautify(cash);
 	}, 30);
-
-function drawMineHistory() {
-	for (let i = 0; i < 30; i++) {
-		get("mineHistory").insertAdjacentHTML("beforeend", "<span id=mh"+i+" class='empty'></span>");
-	}
-}
-
-function mineHistory() {
-	let i = document.getElementsByClassName("used").length;
-	for (i; i > 0; i--) {
-		let x = (get("mh" + (i - 1))).classList;
-		let y = (get("mh" + (i - 1))).innerHTML;
-		if (i + 1 < 31) {
-			get("mh" + i).classList = x;
-			get("mh" + i).innerHTML = y;
-			(get("mh" + (i - 1))).classList = '';
-		}
-	}
-}
-
-drawMineHistory();

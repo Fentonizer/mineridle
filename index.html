@@ -29,10 +29,6 @@
 		<div id="mainWrapper">
 			<div id="resourceWrapper">
 				<div class="resource tier1" id="peridot"></div>
-					<div class="minHelp">
-						<span>?</span>
-						<span class="tooltip">HELLO</span>
-					</div>
 			</div>
 
 			<div id="globalUpgradesWrapper">
@@ -44,6 +40,7 @@
 				</div>
 				<div id="research" class="upgradesBox">
 					<span class="upgradeTitle">Research</span>
+					<button class="upgradeButton" id="unlockMineLog" onclick="unlockMineLog()">MINE LOG</button>
 				</div>
 			</div>
 
@@ -57,3 +54,13 @@
 	<script type="text/javascript" src="main.js"></script>	
 	</body>
 </html>
+
+<!--
+========== 
+| TO DO: |
+==========
+
+- Balance the resources. Probably have to make a bunch of arrays for starting values so that the function can be updated on the fly.
+- Hover tooltips for each resource showing stats (maybe some stats are Research unlocks?)
+
+-->
